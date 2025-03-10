@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score,confusion_matrix
 import cv2
+import os
 
 digits = pd.read_csv("./MNIST_CSV/mnist_train.csv")
 print(digits.shape)
@@ -32,16 +33,34 @@ x_test_2 = x_test.values.reshape(-1,28,28,1)
 print("image is :" , y_test.iloc[1000])
 print("prediction for this image is :",model.predict(x_test)[1000])
 plt.imshow(x_test_2[1000],cmap='gray')
-plt.show()
+#plt.show()
 
 def preprocess_image(image_path):
-    img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)  
+    img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE) 
+    print(f"Original image shape: {img.shape}") 
     img = cv2.resize(img, (28, 28))  
+    print(f"Original image shape: {img.shape}")
+    if np.mean(img) > 125 :
+        img = 255 - img
     img = img / 255.0  
-    img = img.reshape(1, -1)  
+    #img = img.reshape(1,-1)  
+    img = img.reshape(1, 28*28) 
     return img
 
-image_path = f"/Users/edelta076/Desktop/char_recognition/img5.png"  
+img_num = 0
+
+while os.path.isfile(f"/Users/edelta076/Desktop/char_recognition/img{img_num}.png") :
+    image_path = f"/Users/edelta076/Desktop/char_recognition/img{img_num}.png"
+    img = preprocess_image(image_path)
+    pred = model.predict(img)
+    #print(f"Prediction for custom image: {pred[0]}")
+    img_to_show = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    plt.imshow(img_to_show, cmap='gray')
+    plt.title(f"Predicted: {pred[0]}")
+    plt.show()
+    img_num += 1
+
+'''image_path = f"/Users/edelta076/Desktop/char_recognition/img6.png"    # 9,6
 custom_img = preprocess_image(image_path)  
 prediction = model.predict(custom_img)
 print(f"Prediction for custom image: {prediction[0]}")
@@ -49,5 +68,5 @@ print(f"Prediction for custom image: {prediction[0]}")
 img_to_show = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 plt.imshow(img_to_show, cmap='gray')
 plt.title(f"Predicted: {prediction[0]}")
-plt.show()
+plt.show()'''
 
