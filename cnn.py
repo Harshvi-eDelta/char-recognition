@@ -25,7 +25,7 @@ x_train, x_test, y_train, y_test = train_test_split(x1, y, test_size=0.3, random
 
 model = tf.keras.Sequential([
     tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)),
-    tf.keras.layers.MaxPooling2D((2, 2)),
+    tf.keras.layers.MaxPooling2D((2, 2)),   
     tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
     tf.keras.layers.MaxPooling2D((2, 2)),
     tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),

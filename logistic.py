@@ -53,7 +53,7 @@ while os.path.isfile(f"/Users/edelta076/Desktop/char_recognition/img{img_num}.pn
     image_path = f"/Users/edelta076/Desktop/char_recognition/img{img_num}.png"
     img = preprocess_image(image_path)
     pred = model.predict(img)
-    #print(f"Prediction for custom image: {pred[0]}")
+    print(f"Prediction for custom image: {pred[0]}")
     img_to_show = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
     plt.imshow(img_to_show, cmap='gray')
     plt.title(f"Predicted: {pred[0]}")
